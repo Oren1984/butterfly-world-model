@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+.pytest_cache/
+node_modules/
+web/dist/
+web/test-results/
+web/playwright-report/
+.env
+promrt_*.md
+# superseded by the .jpg versions
+docs/images/garden-twenty-futures.png
+docs/images/landing-result.png

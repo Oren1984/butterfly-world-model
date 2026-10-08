@@ -1,0 +1,21 @@
+# Butterfly World Model: two services, no external infrastructure.
+#   web  -> http://localhost:8080   (the application; proxies /api to the api service)
+#   api  -> http://localhost:8000   (optional direct access, interactive docs at /docs)
+services:
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    ports:
+      - "${API_PORT:-8000}:8000"
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ./web
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped

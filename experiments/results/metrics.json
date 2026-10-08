@@ -1,0 +1,276 @@
+{
+  "n_scenarios": 500,
+  "seeds": {
+    "first": 0,
+    "last": 499
+  },
+  "n_futures": 20,
+  "horizon_steps": 60,
+  "horizon_seconds": 6.0,
+  "heading_kappa": 12.0,
+  "actual_outcomes": {
+    "landed": 443,
+    "no_landing_within_horizon": 57
+  },
+  "model": {
+    "top1_accuracy": 0.72,
+    "top1_accuracy_ci95": [
+      0.6790805551718125,
+      0.75756461267459
+    ],
+    "brier_score": 0.42214999999999997,
+    "landing_position_error": {
+      "coverage": 0.868,
+      "n_defined": 434,
+      "mean": 6.014474717424678,
+      "median": 1.017439499993654,
+      "p90": 24.635045844140883,
+      "mean_when_flower_correct": 0.9489685382604174
+    },
+    "calibration": {
+      "expected_calibration_error": 0.03859999999999996,
+      "bins": [
+        {
+          "lower": 0.0,
+          "upper": 0.2,
+          "count": 0,
+          "mean_confidence": null,
+          "accuracy": null
+        },
+        {
+          "lower": 0.2,
+          "upper": 0.4,
+          "count": 12,
+          "mean_confidence": 0.3291666666666666,
+          "accuracy": 0.3333333333333333
+        },
+        {
+          "lower": 0.4,
+          "upper": 0.6000000000000001,
+          "count": 102,
+          "mean_confidence": 0.5004901960784313,
+          "accuracy": 0.5196078431372549
+        },
+        {
+          "lower": 0.6000000000000001,
+          "upper": 0.8,
+          "count": 181,
+          "mean_confidence": 0.6759668508287294,
+          "accuracy": 0.7237569060773481
+        },
+        {
+          "lower": 0.8,
+          "upper": 1.0,
+          "count": 205,
+          "mean_confidence": 0.8812195121951218,
+          "accuracy": 0.8390243902439024
+        }
+      ]
+    },
+    "latency": {
+      "mean_ms": 4.803720799623989,
+      "p50_ms": 4.243000003043562,
+      "p90_ms": 7.137019994843286,
+      "p99_ms": 12.621374997834208,
+      "max_ms": 14.437100006034598
+    }
+  },
+  "baselines": {
+    "constant_velocity": {
+      "top1_accuracy": 0.366,
+      "top1_accuracy_ci95": [
+        0.3249468744510326,
+        0.40909652331524954
+      ],
+      "brier_score": 1.268,
+      "landing_position_error": {
+        "coverage": 0.394,
+        "n_defined": 197,
+        "mean": 9.32632999174721,
+        "median": 3.560567809426691,
+        "p90": 26.978367268493646,
+        "mean_when_flower_correct": 3.0408453564686293
+      },
+      "calibration": {
+        "expected_calibration_error": 0.634,
+        "bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.2,
+            "count": 0,
+            "mean_confidence": null,
+            "accuracy": null
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.4,
+            "count": 0,
+            "mean_confidence": null,
+            "accuracy": null
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.6000000000000001,
+            "count": 0,
+            "mean_confidence": null,
+            "accuracy": null
+          },
+          {
+            "lower": 0.6000000000000001,
+            "upper": 0.8,
+            "count": 0,
+            "mean_confidence": null,
+            "accuracy": null
+          },
+          {
+            "lower": 0.8,
+            "upper": 1.0,
+            "count": 500,
+            "mean_confidence": 1.0,
+            "accuracy": 0.366
+          }
+        ]
+      },
+      "latency": {
+        "mean_ms": 0.008258199464762583,
+        "p50_ms": 0.006499991286545992,
+        "p90_ms": 0.01309999788645655,
+        "p99_ms": 0.021419988333946077,
+        "max_ms": 0.23180000425782055
+      }
+    },
+    "nearest_flower": {
+      "top1_accuracy": 0.576,
+      "top1_accuracy_ci95": [
+        0.5322644098109273,
+        0.6185766481723753
+      ],
+      "brier_score": 0.848,
+      "landing_position_error": {
+        "coverage": 0.886,
+        "n_defined": 443,
+        "mean": 11.445309577483691,
+        "median": 2.6037490087602,
+        "p90": 32.67868523497164,
+        "mean_when_flower_correct": 1.9139483944821825
+      },
+      "calibration": {
+        "expected_calibration_error": 0.42400000000000004,
+        "bins": [
+          {
+            "lower": 0.0,
+            "upper": 0.2,
+            "count": 0,
+            "mean_confidence": null,
+            "accuracy": null
+          },
+          {
+            "lower": 0.2,
+            "upper": 0.4,
+            "count": 0,
+            "mean_confidence": null,
+            "accuracy": null
+          },
+          {
+            "lower": 0.4,
+            "upper": 0.6000000000000001,
+            "count": 0,
+            "mean_confidence": null,
+            "accuracy": null
+          },
+          {
+            "lower": 0.6000000000000001,
+            "upper": 0.8,
+            "count": 0,
+            "mean_confidence": null,
+            "accuracy": null
+          },
+          {
+            "lower": 0.8,
+            "upper": 1.0,
+            "count": 500,
+            "mean_confidence": 1.0,
+            "accuracy": 0.576
+          }
+        ]
+      },
+      "latency": {
+        "mean_ms": 0.0055436000402551144,
+        "p50_ms": 0.004799992893822491,
+        "p90_ms": 0.008899995009414852,
+        "p99_ms": 0.0152059992251452,
+        "max_ms": 0.03819999983534217
+      }
+    }
+  },
+  "accuracy_by_wind": [
+    {
+      "bucket": "low",
+      "range": [
+        0,
+        4.0
+      ],
+      "count": 181,
+      "model_accuracy": 0.6906077348066298,
+      "constant_velocity_accuracy": 0.4419889502762431,
+      "nearest_flower_accuracy": 0.569060773480663
+    },
+    {
+      "bucket": "medium",
+      "range": [
+        4.0,
+        8.0
+      ],
+      "count": 158,
+      "model_accuracy": 0.8227848101265823,
+      "constant_velocity_accuracy": 0.31645569620253167,
+      "nearest_flower_accuracy": 0.6582278481012658
+    },
+    {
+      "bucket": "high",
+      "range": [
+        8.0,
+        12.0
+      ],
+      "count": 161,
+      "model_accuracy": 0.6521739130434783,
+      "constant_velocity_accuracy": 0.32919254658385094,
+      "nearest_flower_accuracy": 0.5031055900621118
+    }
+  ],
+  "accuracy_by_randomness": [
+    {
+      "bucket": "low",
+      "range": [
+        0,
+        0.4
+      ],
+      "count": 180,
+      "model_accuracy": 0.7388888888888889,
+      "constant_velocity_accuracy": 0.4166666666666667,
+      "nearest_flower_accuracy": 0.5611111111111111
+    },
+    {
+      "bucket": "medium",
+      "range": [
+        0.4,
+        0.7
+      ],
+      "count": 162,
+      "model_accuracy": 0.7283950617283951,
+      "constant_velocity_accuracy": 0.3395061728395062,
+      "nearest_flower_accuracy": 0.5493827160493827
+    },
+    {
+      "bucket": "high",
+      "range": [
+        0.7,
+        1.0
+      ],
+      "count": 158,
+      "model_accuracy": 0.689873417721519,
+      "constant_velocity_accuracy": 0.33544303797468356,
+      "nearest_flower_accuracy": 0.620253164556962
+    }
+  ]
+}

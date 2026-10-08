@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A butterfly, twenty imagined futures, one real landing: a compact world-model experiment." />
+    <meta name="theme-color" content="#070b1d" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 16C8 2 0 8 4 16c-4 8 4 12 12 0zm0 0c8-14 16-8 12 0 4 8-4 12-12 0z' fill='%23ffd166'/%3E%3C/svg%3E" />
+    <title>Butterfly World Model</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <main class="stage">
+        <div class="viewport">
+        <header class="brand">
+          <h1>Butterfly World Model</h1>
+          <p>Don't just observe the world. Imagine what happens next.</p>
+        </header>
+
+        <canvas
+          id="garden"
+          tabindex="0"
+          aria-label="Garden simulation. Drag a flower to move it, or press N to select a flower and use the arrow keys."
+        ></canvas>
+
+        <div id="loading" class="veil" role="status">Waking the garden…</div>
+        <div id="banner" class="banner" role="alert" hidden></div>
+
+        <ol class="story" aria-label="How one prediction unfolds">
+          <li id="story-butterfly" class="on"><span>1</span> butterfly</li>
+          <li id="story-futures"><span>20</span> imagined futures</li>
+          <li id="story-predicted"><span>1</span> <em id="story-predicted-text">predicted landing</em></li>
+          <li id="story-actual"><span>1</span> <em id="story-actual-text">actual landing</em></li>
+        </ol>
+        </div>
+
+        <section id="result" class="result" aria-live="polite" hidden>
+          <h2>Prediction Result</h2>
+          <p id="result-verdict" class="verdict"></p>
+          <dl>
+            <div><dt>Predicted flower</dt><dd id="result-predicted"></dd></div>
+            <div><dt>Actual flower</dt><dd id="result-actual"></dd></div>
+            <div><dt>Prediction confidence</dt><dd id="result-confidence"></dd></div>
+            <div><dt>Landing position error</dt><dd id="result-error"></dd></div>
+          </dl>
+          <button id="btn-next" type="button">Next flight</button>
+          <div class="countdown"><span id="countdown-bar"></span></div>
+        </section>
+      </main>
+
+      <aside class="panel">
+        <section aria-labelledby="h-research">
+          <h2 id="h-research">World model <span id="model-status" class="pill">Connecting</span></h2>
+          <dl class="facts">
+            <div><dt>Imagined futures</dt><dd id="futures-count">–</dd></div>
+            <div><dt>Most likely landing</dt><dd id="live-top">–</dd></div>
+            <div><dt>Confidence now</dt><dd id="live-confidence">–</dd></div>
+            <div><dt>Scored prediction</dt><dd id="committed-text">–</dd></div>
+            <div><dt>Horizon left</dt><dd id="horizon-left">–</dd></div>
+            <div><dt>Butterfly</dt><dd id="butterfly-text">–</dd></div>
+            <div><dt>Wind</dt><dd id="wind-text">–</dd></div>
+            <div><dt>This session</dt><dd id="session-text">–</dd></div>
+          </dl>
+          <h3>Landing probabilities</h3>
+          <ul id="prob-list" class="probs" aria-live="off"></ul>
+          <h3>How uncertainty grows over the horizon</h3>
+          <svg id="spread" class="spread" viewBox="0 0 200 40" preserveAspectRatio="none" role="img"
+               aria-label="Spread of the imagined futures over the prediction horizon">
+            <polyline id="spread-line" points="" />
+          </svg>
+        </section>
+
+        <section aria-labelledby="h-controls">
+          <h2 id="h-controls">Controls</h2>
+          <label class="slider">
+            <span>Wind strength <output id="out-wind-strength"></output></span>
+            <input id="wind-strength" type="range" min="0" max="12" step="0.5" />
+          </label>
+          <label class="slider">
+            <span>Wind direction <output id="out-wind-direction"></output></span>
+            <input id="wind-direction" type="range" min="0" max="355" step="5" />
+          </label>
+          <label class="slider">
+            <span>Behaviour randomness <output id="out-randomness"></output></span>
+            <input id="randomness" type="range" min="0" max="1" step="0.05" />
+          </label>
+          <div class="buttons">
+            <button id="btn-pause" type="button" aria-pressed="false">Pause</button>
+            <button id="btn-reset" type="button">Reset</button>
+            <button id="btn-new" type="button">New scenario</button>
+          </div>
+          <label class="toggle">
+            <input id="toggle-futures" type="checkbox" checked />
+            <span>Show imagined futures</span>
+          </label>
+          <p class="hint">Drag any flower to move it. Every change makes the old prediction obsolete, so the model imagines again. Scenario seed <b id="seed-text">–</b>.</p>
+        </section>
+
+        <section aria-labelledby="h-eval">
+          <h2 id="h-eval">Evaluation <span id="eval-status" class="pill muted">Not run</span></h2>
+          <div class="tiles">
+            <div><dt>Scenarios</dt><dd id="eval-n">–</dd></div>
+            <div><dt>Top-1 accuracy</dt><dd id="eval-acc">–</dd></div>
+            <div><dt>Brier score</dt><dd id="eval-brier">–</dd></div>
+            <div><dt>Avg landing error</dt><dd id="eval-error">–</dd></div>
+          </div>
+          <table class="compare">
+            <caption>World model against two simple baselines</caption>
+            <thead><tr><th scope="col">Predictor</th><th scope="col">Top-1</th><th scope="col">Brier</th><th scope="col">Error</th></tr></thead>
+            <tbody id="eval-rows"><tr><td colspan="4">Results appear after the evaluation runs.</td></tr></tbody>
+          </table>
+          <p id="eval-note" class="hint"></p>
+          <button id="btn-eval" type="button">Run 500-scenario evaluation</button>
+        </section>
+      </aside>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
