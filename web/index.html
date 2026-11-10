@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
-    <div id="app">
+    <div id="app" class="app-grid">
       <main class="stage">
         <div class="viewport">
         <header class="brand">
@@ -50,6 +50,11 @@
       </main>
 
       <aside class="panel">
+        <nav id="modes" class="modes" role="tablist" aria-label="Experiment mode">
+          <button type="button" role="tab" data-mode="prediction" aria-selected="true">Landing Prediction</button>
+          <button type="button" role="tab" data-mode="planning" aria-selected="false">Goal-Directed Planning</button>
+          <button type="button" role="tab" data-mode="visual" aria-selected="false">Visual Planning</button>
+        </nav>
         <section aria-labelledby="h-research">
           <h2 id="h-research">World model <span id="model-status" class="pill">Connecting</span></h2>
           <dl class="facts">
@@ -115,6 +120,66 @@
         </section>
       </aside>
     </div>
+
+    <div id="lab" class="app-grid" hidden>
+      <main class="stage">
+        <div class="viewport">
+          <header class="brand">
+            <h2 id="lab-title">Goal-Directed Planning</h2>
+            <p id="lab-subtitle"></p>
+          </header>
+          <canvas id="lab-canvas" aria-label="Replay of one planning episode: the actual flight, the imagined route and the waypoints"></canvas>
+          <div id="lab-views" class="lab-views" hidden>
+            <figure><canvas id="lab-frame" width="50" height="30"></canvas><figcaption>What the planner sees</figcaption></figure>
+            <figure><canvas id="lab-goal" width="50" height="30"></canvas><figcaption>Goal image</figcaption></figure>
+          </div>
+          <ul class="lab-legend" aria-label="Legend">
+            <li><i class="gold"></i>actual flight</li>
+            <li><i class="cyan"></i>imagined route</li>
+            <li><i class="violet"></i>waypoint / subgoal</li>
+          </ul>
+        </div>
+      </main>
+
+      <aside class="panel">
+        <section aria-labelledby="h-lab-about">
+          <h2 id="h-lab-about">About this experiment</h2>
+          <p id="lab-explain" class="hint"></p>
+        </section>
+
+        <section aria-labelledby="h-lab-run">
+          <h2 id="h-lab-run">Episode <span id="run-status" class="pill muted">Not run</span></h2>
+          <label class="field"><span>Garden</span><select id="sel-layout"></select></label>
+          <label class="field"><span>Planner</span><select id="sel-planner"></select></label>
+          <label class="field"><span>Episode seed</span><input id="inp-seed" type="number" min="0" step="1" value="0" /></label>
+          <label class="field" id="row-model-seed"><span>Trained model</span><select id="sel-model-seed"></select></label>
+          <label class="toggle" id="row-distractor"><input id="chk-distractor" type="checkbox" /><span>Add a moving visual distractor</span></label>
+          <div class="buttons two">
+            <button id="btn-run" type="button">Run live episode</button>
+            <button id="btn-replay" type="button">Replay</button>
+          </div>
+          <input id="inp-scrub" type="range" min="0" max="0" value="0" aria-label="Replay position" />
+          <dl class="facts">
+            <div><dt>Outcome</dt><dd id="res-outcome">–</dd></div>
+            <div><dt>Time to land</dt><dd id="res-time">–</dd></div>
+            <div><dt>Replans</dt><dd id="res-replans">–</dd></div>
+            <div><dt>Model evaluations</dt><dd id="res-evals">–</dd></div>
+            <div><dt>Planning latency (p50)</dt><dd id="res-latency">–</dd></div>
+            <div><dt>Model</dt><dd id="res-model">–</dd></div>
+          </dl>
+          <p id="res-message" class="hint"></p>
+          <p id="lab-model-note" class="hint"></p>
+        </section>
+
+        <section aria-labelledby="h-lab-rec">
+          <h2 id="h-lab-rec">Recorded comparison <span id="rec-status" class="pill muted">–</span></h2>
+          <div id="rec-body"></div>
+          <p id="rec-note" class="hint"></p>
+        </section>
+        <p class="credit">Developed and built by Oren Salami · V1.1</p>
+      </aside>
+    </div>
     <script type="module" src="/src/main.ts"></script>
+    <script type="module" src="/src/lab.ts"></script>
   </body>
 </html>

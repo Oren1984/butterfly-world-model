@@ -9,13 +9,14 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from .contracts import Observation, Prediction
 from .evaluation.experiment import EVAL_BASE_SEED, run_experiment
+from .labs import router as labs_router
 from .params import PARAMS
 from .prediction.predictor import predict
 from .session import Session
 
 MAX_SEED = 2**31 - 1
 
-app = FastAPI(title="Butterfly World Model", version="1.0.0")
+app = FastAPI(title="Butterfly World Model", version="1.1.0")
 # The web container proxies /api, so CORS only matters for local Vite development.
 app.add_middleware(
     CORSMiddleware,
@@ -24,6 +25,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 session = Session()
+# V1.1 experiment modes (Goal-Directed Planning, Visual Planning). Prediction routes below are unchanged.
+app.include_router(labs_router)
 
 
 class Request(BaseModel):

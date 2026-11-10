@@ -1,0 +1,478 @@
+{
+  "experiment": "goal-directed planning (HWM-inspired)",
+  "app_version": "1.1.0",
+  "seeds": {
+    "first": 0,
+    "last": 49,
+    "count": 50,
+    "range_name": "PLANNING_EVAL_SEEDS"
+  },
+  "config": {
+    "budget_evaluations_per_replan": 960,
+    "replan_every_decisions": 2,
+    "decision_seconds": 0.2,
+    "max_decisions": 120,
+    "n_actions": 16,
+    "flat": {
+      "n_samples": 64,
+      "horizon": 15
+    },
+    "waypoint": {
+      "n_candidates": 16,
+      "macro_len": 30,
+      "n_samples": 32,
+      "horizon": 15
+    },
+    "subgoal": {
+      "n_sequences": 160,
+      "n_macros": 3,
+      "n_samples": 32,
+      "horizon": 15
+    },
+    "layouts": {
+      "direct": {
+        "name": "direct",
+        "description": "Simple direct route: a bush sits off to the side; flying straight to the flower works.",
+        "start": [
+          15.0,
+          30.0
+        ],
+        "target": {
+          "x": 85.0,
+          "y": 30.0,
+          "radius": 3.0
+        },
+        "obstacles": [
+          {
+            "x0": 44.0,
+            "y0": 46.0,
+            "x1": 56.0,
+            "y1": 60.0
+          }
+        ],
+        "reachable": true,
+        "width": 100.0,
+        "height": 60.0
+      },
+      "detour": {
+        "name": "detour",
+        "description": "Detour route: a hedge blocks the straight line; the gaps are at the top and bottom edges.",
+        "start": [
+          15.0,
+          30.0
+        ],
+        "target": {
+          "x": 85.0,
+          "y": 30.0,
+          "radius": 3.0
+        },
+        "obstacles": [
+          {
+            "x0": 47.0,
+            "y0": 9.0,
+            "x1": 53.0,
+            "y1": 51.0
+          }
+        ],
+        "reachable": true,
+        "width": 100.0,
+        "height": 60.0
+      },
+      "enclosed": {
+        "name": "enclosed",
+        "description": "Unreachable target: the flower is walled in. Used to check that planners fail safely.",
+        "start": [
+          15.0,
+          30.0
+        ],
+        "target": {
+          "x": 80.0,
+          "y": 30.0,
+          "radius": 3.0
+        },
+        "obstacles": [
+          {
+            "x0": 68.0,
+            "y0": 18.0,
+            "x1": 92.0,
+            "y1": 21.0
+          },
+          {
+            "x0": 68.0,
+            "y0": 39.0,
+            "x1": 92.0,
+            "y1": 42.0
+          },
+          {
+            "x0": 68.0,
+            "y0": 21.0,
+            "x1": 71.0,
+            "y1": 39.0
+          },
+          {
+            "x0": 89.0,
+            "y0": 21.0,
+            "x1": 92.0,
+            "y1": 39.0
+          }
+        ],
+        "reachable": false,
+        "width": 100.0,
+        "height": 60.0
+      }
+    }
+  },
+  "exact_dynamics": {
+    "direct": {
+      "flat_exact": {
+        "episodes": 50,
+        "landing_rate": 1.0,
+        "landing_rate_ci95": [
+          0.9286499658256813,
+          1.0
+        ],
+        "collision_rate": 0.0,
+        "timeout_rate": 0.0,
+        "mean_seconds_to_land": 8.228,
+        "median_seconds_to_land": 8.149999999999999,
+        "mean_decisions": 41.28,
+        "evaluations_per_replan": 960,
+        "high_level_share_of_evaluations": 0.0,
+        "mean_evaluations_per_episode": 20083.2,
+        "planning_latency_ms_per_replan": {
+          "p50": 1.4487500011455268,
+          "mean": 1.5072779994807206
+        }
+      },
+      "waypoint_exact": {
+        "episodes": 50,
+        "landing_rate": 1.0,
+        "landing_rate_ci95": [
+          0.9286499658256813,
+          1.0
+        ],
+        "collision_rate": 0.0,
+        "timeout_rate": 0.0,
+        "mean_seconds_to_land": 8.934,
+        "median_seconds_to_land": 8.850000000000001,
+        "mean_decisions": 44.92,
+        "evaluations_per_replan": 960,
+        "high_level_share_of_evaluations": 0.5,
+        "mean_evaluations_per_episode": 21888.0,
+        "planning_latency_ms_per_replan": {
+          "p50": 9.16634999884991,
+          "mean": 8.630589998792857
+        }
+      }
+    },
+    "detour": {
+      "flat_exact": {
+        "episodes": 50,
+        "landing_rate": 0.26,
+        "landing_rate_ci95": [
+          0.15871379651367384,
+          0.3955342198899992
+        ],
+        "collision_rate": 0.0,
+        "timeout_rate": 0.74,
+        "mean_seconds_to_land": 15.292307692307691,
+        "median_seconds_to_land": 15.6,
+        "mean_decisions": 108.72,
+        "evaluations_per_replan": 960,
+        "high_level_share_of_evaluations": 0.0,
+        "mean_evaluations_per_episode": 52243.2,
+        "planning_latency_ms_per_replan": {
+          "p50": 3.275499999290332,
+          "mean": 3.184081000799779
+        }
+      },
+      "waypoint_exact": {
+        "episodes": 50,
+        "landing_rate": 0.8,
+        "landing_rate_ci95": [
+          0.6696262789551477,
+          0.8875637005402612
+        ],
+        "collision_rate": 0.0,
+        "timeout_rate": 0.2,
+        "mean_seconds_to_land": 16.655,
+        "median_seconds_to_land": 15.9,
+        "mean_decisions": 90.86,
+        "evaluations_per_replan": 960,
+        "high_level_share_of_evaluations": 0.5,
+        "mean_evaluations_per_episode": 43852.8,
+        "planning_latency_ms_per_replan": {
+          "p50": 9.323674996267073,
+          "mean": 9.442255999310873
+        }
+      }
+    },
+    "enclosed": {
+      "flat_exact": {
+        "episodes": 50,
+        "landing_rate": 0.0,
+        "landing_rate_ci95": [
+          0.0,
+          0.07135003417431873
+        ],
+        "collision_rate": 0.0,
+        "timeout_rate": 1.0,
+        "mean_seconds_to_land": null,
+        "median_seconds_to_land": null,
+        "mean_decisions": 120.0,
+        "evaluations_per_replan": 960,
+        "high_level_share_of_evaluations": 0.0,
+        "mean_evaluations_per_episode": 57600.0,
+        "planning_latency_ms_per_replan": {
+          "p50": 3.3924000017577782,
+          "mean": 3.3792099996935576
+        }
+      },
+      "waypoint_exact": {
+        "episodes": 50,
+        "landing_rate": 0.0,
+        "landing_rate_ci95": [
+          0.0,
+          0.07135003417431873
+        ],
+        "collision_rate": 0.0,
+        "timeout_rate": 1.0,
+        "mean_seconds_to_land": null,
+        "median_seconds_to_land": null,
+        "mean_decisions": 120.0,
+        "evaluations_per_replan": 960,
+        "high_level_share_of_evaluations": 0.5,
+        "mean_evaluations_per_episode": 57600.0,
+        "planning_latency_ms_per_replan": {
+          "p50": 10.2696499961894,
+          "mean": 10.601726999448147
+        }
+      }
+    }
+  },
+  "learned_model": {
+    "direct": {
+      "flat_learned": {
+        "episodes": 50,
+        "landing_rate": 1.0,
+        "landing_rate_ci95": [
+          0.9286499658256813,
+          1.0
+        ],
+        "collision_rate": 0.0,
+        "timeout_rate": 0.0,
+        "mean_seconds_to_land": 8.156,
+        "median_seconds_to_land": 7.9,
+        "mean_decisions": 40.92,
+        "evaluations_per_replan": 960,
+        "high_level_share_of_evaluations": 0.0,
+        "mean_evaluations_per_episode": 19948.8,
+        "planning_latency_ms_per_replan": {
+          "p50": 6.173125009809155,
+          "mean": 6.007390999002382
+        }
+      },
+      "waypoint_learned": {
+        "episodes": 50,
+        "landing_rate": 1.0,
+        "landing_rate_ci95": [
+          0.9286499658256813,
+          1.0
+        ],
+        "collision_rate": 0.0,
+        "timeout_rate": 0.0,
+        "mean_seconds_to_land": 9.033999999999999,
+        "median_seconds_to_land": 8.9,
+        "mean_decisions": 45.42,
+        "evaluations_per_replan": 960,
+        "high_level_share_of_evaluations": 0.5,
+        "mean_evaluations_per_episode": 22099.2,
+        "planning_latency_ms_per_replan": {
+          "p50": 8.043499998166226,
+          "mean": 8.804514000948984
+        }
+      },
+      "subgoal_learned": {
+        "episodes": 50,
+        "landing_rate": 1.0,
+        "landing_rate_ci95": [
+          0.9286499658256813,
+          1.0
+        ],
+        "collision_rate": 0.0,
+        "timeout_rate": 0.0,
+        "mean_seconds_to_land": 11.604000000000001,
+        "median_seconds_to_land": 11.3,
+        "mean_decisions": 58.18,
+        "evaluations_per_replan": 960,
+        "high_level_share_of_evaluations": 0.5,
+        "mean_evaluations_per_episode": 28185.6,
+        "planning_latency_ms_per_replan": {
+          "p50": 4.1805000000749715,
+          "mean": 4.316955002141185
+        }
+      }
+    },
+    "detour": {
+      "flat_learned": {
+        "episodes": 50,
+        "landing_rate": 0.06,
+        "landing_rate_ci95": [
+          0.020614596364630478,
+          0.16217343370877002
+        ],
+        "collision_rate": 0.0,
+        "timeout_rate": 0.94,
+        "mean_seconds_to_land": 14.266666666666666,
+        "median_seconds_to_land": 13.1,
+        "mean_decisions": 117.1,
+        "evaluations_per_replan": 960,
+        "high_level_share_of_evaluations": 0.0,
+        "mean_evaluations_per_episode": 56217.6,
+        "planning_latency_ms_per_replan": {
+          "p50": 5.437699990579858,
+          "mean": 4.931436998886056
+        }
+      },
+      "waypoint_learned": {
+        "episodes": 50,
+        "landing_rate": 0.1,
+        "landing_rate_ci95": [
+          0.04347512399157111,
+          0.2136049033478839
+        ],
+        "collision_rate": 0.0,
+        "timeout_rate": 0.9,
+        "mean_seconds_to_land": 17.28,
+        "median_seconds_to_land": 16.4,
+        "mean_decisions": 116.68,
+        "evaluations_per_replan": 960,
+        "high_level_share_of_evaluations": 0.5,
+        "mean_evaluations_per_episode": 56025.6,
+        "planning_latency_ms_per_replan": {
+          "p50": 3.506675006065052,
+          "mean": 3.7287250004010275
+        }
+      },
+      "subgoal_learned": {
+        "episodes": 50,
+        "landing_rate": 0.6,
+        "landing_rate_ci95": [
+          0.4618118910275937,
+          0.7239181021375425
+        ],
+        "collision_rate": 0.0,
+        "timeout_rate": 0.4,
+        "mean_seconds_to_land": 19.473333333333333,
+        "median_seconds_to_land": 19.25,
+        "mean_decisions": 106.58,
+        "evaluations_per_replan": 960,
+        "high_level_share_of_evaluations": 0.5,
+        "mean_evaluations_per_episode": 51340.8,
+        "planning_latency_ms_per_replan": {
+          "p50": 2.0378749977680854,
+          "mean": 2.0824750035535544
+        }
+      }
+    }
+  },
+  "learned_model_version": "planning-dynamics-v1-10b0e6d4aa",
+  "learned_model_validation": {
+    "short": {
+      "collision_detection_recall": 0.7692307692307693,
+      "collision_detection_precision": 0.37735849056603776,
+      "collision_mean_predicted_probability": 0.0024261248763650656,
+      "n_val_examples": 17816,
+      "position_rmse": 0.12023721649547905,
+      "position_median_error": 0.05016754997779609,
+      "collision_rate_val": 0.0029187247418051188,
+      "train_loss_curve": [
+        0.33206933886908435,
+        0.2227588279245823,
+        0.1950623305459671,
+        0.17646338921405522,
+        0.16190134605904127,
+        0.15033874453191517,
+        0.1398196765842537,
+        0.1330262913898218,
+        0.12630703870535773,
+        0.12075687662479194,
+        0.11675606100025641,
+        0.11202841217757441
+      ]
+    },
+    "long": {
+      "collision_detection_recall": 0.9038461538461539,
+      "collision_detection_precision": 0.746031746031746,
+      "collision_mean_predicted_probability": 0.01946309767663479,
+      "n_val_examples": 2249,
+      "position_rmse": 1.1004950202685548,
+      "position_median_error": 0.7289277386546158,
+      "collision_rate_val": 0.023121387283236993,
+      "train_loss_curve": [
+        0.7638527812866064,
+        0.38519830440099423,
+        0.3462743972356503,
+        0.32114421249582215,
+        0.2948537722803079,
+        0.26070954748071157,
+        0.23275739825688876,
+        0.206035672300137,
+        0.17801645151697673,
+        0.16087438418315006,
+        0.14678108560351225,
+        0.13173486630503947,
+        0.12102381311930142,
+        0.11402653467196684,
+        0.10515312626957893,
+        0.10009980814961286,
+        0.0942395483645109,
+        0.0909693666948722,
+        0.08594248526944565,
+        0.08070357195459879,
+        0.07867326661944389,
+        0.0752195319877221,
+        0.07237425354810861,
+        0.06866415306352652,
+        0.0669082607787389,
+        0.06455910724516098,
+        0.06414809569429893,
+        0.061711241419498734,
+        0.05876738699869467,
+        0.05694240119594794,
+        0.05666650028970952,
+        0.05595183154711356,
+        0.05390443006673684,
+        0.05209432466385456,
+        0.05129763745487882,
+        0.05071370752098469,
+        0.04827784973268325,
+        0.04778995715941374,
+        0.0463654064358427,
+        0.045758002265714685,
+        0.04400559477508068,
+        0.04412241269332858,
+        0.04171386879080763,
+        0.0412676917675596,
+        0.04338474470692185,
+        0.03928550839280853,
+        0.03837061780146681,
+        0.04079774675460962,
+        0.040208908521498624,
+        0.03640033652146275,
+        0.0360966310549814,
+        0.03584538747269947,
+        0.03593268271249074,
+        0.03280007280051135,
+        0.034604371215503374,
+        0.034403555657571326,
+        0.032347326238568015,
+        0.03203375512160934,
+        0.031329791425154185,
+        0.03274491847349474
+      ]
+    }
+  },
+  "runtime_seconds": 155.3,
+  "generated_utc": "2026-11-10T18:25:40Z"
+}

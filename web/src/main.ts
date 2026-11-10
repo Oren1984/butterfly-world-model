@@ -198,8 +198,11 @@ async function connect(): Promise<void> {
   }
 }
 
+/** The V1.1 planning modes (lab.ts) share the page; prediction only runs while its mode is shown. */
+const predictionMode = () => (document.body.dataset.mode ?? "prediction") === "prediction";
+
 async function tick(): Promise<void> {
-  if (document.hidden) return;
+  if (document.hidden || !predictionMode()) return;
   const now = performance.now();
   if (!state) return void connect();
   if (finished()) {
@@ -472,6 +475,10 @@ function buildScene(now: number): Scene | null {
 
 function frame(now: number): void {
   if (document.hidden) return; // restarted by visibilitychange
+  if (!predictionMode()) {
+    requestAnimationFrame(frame);
+    return;
+  }
   // While paused nothing moves, so only repaint when something actually changed
   // or while freshly imagined futures are still unfurling.
   const unfurling = shown !== null && now - shown.revealStart < shown.revealMs + 100;

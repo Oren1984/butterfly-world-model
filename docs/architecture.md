@@ -40,6 +40,12 @@ The frontend only ever requests relative URLs such as `/api/world/step`. In Dock
 | `web/src/render.ts` | Everything drawn on the canvas. |
 | `web/src/geometry.ts` | Small pure helpers (coordinate transform, path slicing), unit tested. |
 | `tests/`, `web/e2e/` | pytest suite and the Playwright browser tests. |
+| `api/labs.py` | V1.1 routes for the two experiment modes; loads trained artifacts or reports their absence. |
+| `api/planning/` | V1.1 Phase 1: controlled garden (`garden.py`), transition models (`models.py`), flat / waypoint / subgoal planners (`planners.py`), episode loop, learned-model training (`learned.py`), evaluation, frozen seeds (`seeds.py`). |
+| `api/visual/` | V1.1 Phase 2: frame rendering and distractor (`scene.py`), JEPA-style one- and two-level latent models with probe (`jepa.py`), latent planners, episode loop. |
+| `api/learning/nn.py` | A tiny numpy MLP with manual backpropagation and Adam (no deep-learning dependency). |
+| `artifacts/` | Trained models with their metadata (model version, seed, config, validation metrics). |
+| `web/src/lab.ts` | The mode switch and the replay view for the two planning modes. |
 
 ## The flight cycle
 
@@ -76,6 +82,13 @@ Every response carries a `config_version` number. The frontend discards any pred
 | `GET /api/world/prediction` | The full committed prediction, with trajectories. |
 | `POST /api/predict` | Imagine futures for the live world, or for any observation you send. |
 | `POST /api/evaluate` | Run the benchmark (default 500 scenarios) and return the metrics. |
+| `GET /api/modes` | V1.1: available modes (prediction is the default), layouts, planners, artifact status, recorded-results status. |
+| `POST /api/planning/episode` | V1.1: run one goal-directed episode live (route, planner, seed) and return the flight, every replan's imagined route and waypoint. |
+| `GET /api/planning/results` | V1.1: the recorded planning comparison (`experiments/results/planning/metrics.json`). |
+| `POST /api/visual/episode` | V1.1: run one visual-planning episode live (route, variant, seed, distractor, trained model). |
+| `GET /api/visual/results` | V1.1: the recorded visual-planning comparison. |
+
+A learned-model request when no compatible artifact exists returns status 409 with the command that trains one; missing recorded results return 404 with the command that produces them.
 
 Requests are validated with Pydantic: unknown fields, negative step counts, wind outside 0–12, flowers outside the garden, unknown flower ids and oversized sampling requests are rejected with status 422 and change nothing.
 
@@ -84,3 +97,32 @@ Requests are validated with Pydantic: unknown fields, negative step counts, wind
 - **Canvas 2D, no framework.** One animated scene and a few panels do not need React or WebGL. The production JavaScript bundle is under 10 kB gzipped.
 - **The server owns time.** The browser asks for one 0.1 s step every 100 ms and interpolates between the last two positions for smooth motion. When the tab is hidden or the demo is paused, it stops asking and stops drawing.
 - **Determinism.** A seed fixes the garden layout, the world's random stream and the predictor's random stream (three separate streams). The same seed and the same requests give the same flight.
+
+## V1.1 experiment modes
+
+The two planning experiments are separate from the prediction mode and from each other:
+
+```mermaid
+flowchart LR
+    subgraph sim["simulation (actual world)"]
+        CF["ControlledFlight<br/>true state + wind schedule"]
+        VF["VisualFlight<br/>renders frames, distractor"]
+    end
+    subgraph obs["observation"]
+        O1["FlightObservation<br/>state + wind now"]
+        O2["pixels<br/>previous + current frame"]
+    end
+    subgraph plan["planning"]
+        P1["flat / waypoint / subgoal<br/>+ exact or learned model"]
+        P2["one- / two-level<br/>latent planners"]
+    end
+    subgraph ev["evaluation"]
+        E["seeded episodes<br/>metrics.json, episodes.csv, charts"]
+    end
+    CF --> O1 --> P1 -- actions --> CF
+    VF --> O2 --> P2 -- actions --> VF
+    CF --> E
+    VF --> E
+```
+
+Models are trained by explicit commands only (`experiments.train_planning`, `experiments.train_visual`) and loaded from `artifacts/`; the API never trains. Details: [goal-directed-planning.md](goal-directed-planning.md), [visual-planning.md](visual-planning.md).

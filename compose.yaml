@@ -1,6 +1,7 @@
 # Butterfly World Model: two services, no external infrastructure.
 #   web  -> http://localhost:8080   (the application; proxies /api to the api service)
 #   api  -> http://localhost:8000   (optional direct access, interactive docs at /docs)
+#   lab  -> training and evaluation commands for the V1.1 experiments (opt-in profile, see README)
 services:
   api:
     build:
@@ -8,6 +9,10 @@ services:
       dockerfile: api/Dockerfile
     ports:
       - "${API_PORT:-8000}:8000"
+    volumes:
+      # Trained models and recorded results from the repository; retrained ones appear without a rebuild.
+      - ./artifacts:/app/artifacts:ro
+      - ./experiments/results:/app/experiments/results:ro
     restart: unless-stopped
 
   web:
@@ -19,3 +24,15 @@ services:
       api:
         condition: service_healthy
     restart: unless-stopped
+
+  # docker compose --profile lab run --rm lab experiments.train_planning
+  lab:
+    profiles: ["lab"]
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    volumes:
+      - ./artifacts:/app/artifacts
+      - ./experiments/results:/app/experiments/results
+    entrypoint: ["python", "-m"]
+    command: ["experiments.run_planning"]

@@ -84,3 +84,30 @@ An agent that only reacts to its current input cannot plan. An agent with a *wor
 - Replace sampling the intent once at the snapshot with a filter that updates the belief as the flight is observed.
 - Study how accuracy and calibration change with the number of imagined futures (5, 20, 100, 500).
 - Close the loop: give an agent an action (for example, placing a flower) and let it plan with the model.
+
+## V1.1 additions
+
+The two planning modes added in V1.1 are **inspired adaptations**, not reproductions.
+
+### 4. Hierarchical Planning with Latent World Models (HWM)
+
+- **Source:** Zhang et al., https://arxiv.org/abs/2604.03208
+- **Idea borrowed:** when a goal is far away, plan through intermediate subgoals. The subgoals are proposed by a model that predicts farther ahead per step, and a short-horizon planner turns them into actions.
+- **What we implemented:** [Goal-Directed Planning](goal-directed-planning.md).
+  - A flat planner compared with an explicit-waypoint planner, with exact dynamics.
+  - A learned-model follow-up in which a longer-horizon head (1.6 s per prediction) proposes subgoals.
+  - Every comparison uses matched model-evaluation budgets.
+- **What we did not implement:** latent states learned from observations (Phase 1 uses explicit states), learned latent macro-actions, and any large-scale training.
+
+### 5. H-JEPA: End-to-End Learning of Hierarchical World Models for Visual Planning
+
+- **Source:** Zhang et al., https://h-jepa.com/
+- **Idea borrowed:** stacked joint-embedding predictive world models learned from pixels. The higher level has its own representation and predicts farther ahead, and its predictions become subgoals for the level below.
+- **What we implemented:** [Visual Planning](visual-planning.md).
+  - Tiny MLP encoders and predictors trained with a stop-gradient target and VICReg-style regularisers.
+  - A one-level model and a jointly trained two-level model.
+  - Latent planning toward a goal image.
+  - A frozen diagnostic probe and a moving distractor.
+- **What we did not implement:** convolutional or transformer encoders, the paper's architecture, objectives and scale. We also added collision heads, which H-JEPA does not use.
+
+Local benchmarking methodology (frozen seeds, matched budgets, exported evidence) follows the reference repository [Hierarchical World Model Planning](https://github.com/Oren1984/hierarchical-world-model-planning).

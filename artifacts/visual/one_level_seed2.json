@@ -1,0 +1,185 @@
+{
+  "format": "bwm-visual-jepa",
+  "format_version": 1,
+  "levels": 1,
+  "variant": "one_level",
+  "model_version": "visual-jepa-L1-v1-d29f8bc128",
+  "training_seed": 2,
+  "input_size": 3000,
+  "n_actions": 16,
+  "config": {
+    "encoder_hidden": 256,
+    "predictor_hidden": 128,
+    "high_hidden": 64,
+    "latent": 32,
+    "high_latent": 16,
+    "macro_k": 8,
+    "batch": 128,
+    "steps": 3000,
+    "lr": 0.001,
+    "ema_tau": 0.99,
+    "w_pred": 1.0,
+    "w_var": 1.0,
+    "w_cov": 0.04,
+    "w_collision": 0.2,
+    "w_high_pred": 1.0,
+    "w_proj": 0.5,
+    "log_every": 250
+  },
+  "n_parameters": 787009,
+  "training_curve": [
+    {
+      "step": 250,
+      "train_pred": 0.03744,
+      "train_collision": 0.00399,
+      "train_var": 0.01248,
+      "train_cov": 1.5129,
+      "val_pred": 0.044959817081689835,
+      "z": {
+        "mean_std": 1.0549710988998413,
+        "effective_rank": 21.960073471069336
+      }
+    },
+    {
+      "step": 500,
+      "train_pred": 0.03691,
+      "train_collision": 0.00252,
+      "train_var": 0.00409,
+      "train_cov": 1.13877,
+      "val_pred": 0.04600011184811592,
+      "z": {
+        "mean_std": 1.0516117811203003,
+        "effective_rank": 23.6906681060791
+      }
+    },
+    {
+      "step": 750,
+      "train_pred": 0.04075,
+      "train_collision": 0.00354,
+      "train_var": 0.00953,
+      "train_cov": 1.1883,
+      "val_pred": 0.046726666390895844,
+      "z": {
+        "mean_std": 1.0703868865966797,
+        "effective_rank": 24.67839241027832
+      }
+    },
+    {
+      "step": 1000,
+      "train_pred": 0.04256,
+      "train_collision": 0.00242,
+      "train_var": 0.00344,
+      "train_cov": 0.96091,
+      "val_pred": 0.04950200393795967,
+      "z": {
+        "mean_std": 1.057337760925293,
+        "effective_rank": 25.428251266479492
+      }
+    },
+    {
+      "step": 1250,
+      "train_pred": 0.04883,
+      "train_collision": 0.0019,
+      "train_var": 0.00717,
+      "train_cov": 0.94143,
+      "val_pred": 0.054848089814186096,
+      "z": {
+        "mean_std": 1.0678832530975342,
+        "effective_rank": 26.00581932067871
+      }
+    },
+    {
+      "step": 1500,
+      "train_pred": 0.05421,
+      "train_collision": 0.00123,
+      "train_var": 0.01134,
+      "train_cov": 0.91089,
+      "val_pred": 0.06157640367746353,
+      "z": {
+        "mean_std": 1.0770106315612793,
+        "effective_rank": 26.572542190551758
+      }
+    },
+    {
+      "step": 1750,
+      "train_pred": 0.05922,
+      "train_collision": 0.00727,
+      "train_var": 0.00529,
+      "train_cov": 0.73401,
+      "val_pred": 0.06567617505788803,
+      "z": {
+        "mean_std": 1.079482078552246,
+        "effective_rank": 27.025131225585938
+      }
+    },
+    {
+      "step": 2000,
+      "train_pred": 0.05673,
+      "train_collision": 0.00797,
+      "train_var": 0.00781,
+      "train_cov": 0.70121,
+      "val_pred": 0.0689491406083107,
+      "z": {
+        "mean_std": 1.0670901536941528,
+        "effective_rank": 27.36139488220215
+      }
+    },
+    {
+      "step": 2250,
+      "train_pred": 0.06423,
+      "train_collision": 0.00607,
+      "train_var": 0.00307,
+      "train_cov": 0.71219,
+      "val_pred": 0.0768471360206604,
+      "z": {
+        "mean_std": 1.072400450706482,
+        "effective_rank": 27.58690643310547
+      }
+    },
+    {
+      "step": 2500,
+      "train_pred": 0.06883,
+      "train_collision": 0.00045,
+      "train_var": 0.00164,
+      "train_cov": 0.72204,
+      "val_pred": 0.07809261232614517,
+      "z": {
+        "mean_std": 1.0745844841003418,
+        "effective_rank": 27.827543258666992
+      }
+    },
+    {
+      "step": 2750,
+      "train_pred": 0.06791,
+      "train_collision": 0.00182,
+      "train_var": 0.00458,
+      "train_cov": 0.67286,
+      "val_pred": 0.08140145987272263,
+      "z": {
+        "mean_std": 1.0776052474975586,
+        "effective_rank": 28.071367263793945
+      }
+    },
+    {
+      "step": 3000,
+      "train_pred": 0.06276,
+      "train_collision": 0.00371,
+      "train_var": 0.00292,
+      "train_cov": 0.68891,
+      "val_pred": 0.08299393206834793,
+      "z": {
+        "mean_std": 1.0849018096923828,
+        "effective_rank": 28.264257431030273
+      }
+    }
+  ],
+  "probe": {
+    "z": {
+      "butterfly_position_r2": 0.7150630334501971,
+      "distractor_position_r2": 0.2585648597224144
+    }
+  },
+  "flags": [],
+  "training_seconds": 282.0,
+  "created_utc": "2026-11-10T18:49:08Z"
+}

@@ -48,3 +48,23 @@ While preparing the video: if the demo was **paused** and the wind or a flower w
 - Subtitle rendering was checked in Chrome. Other players may place or wrap the text slightly differently.
 - GitHub does not play repository MP4 files inline from a README link; the file must be opened or downloaded.
 - Playback and subtitle checks were done by automated inspection of frames; nobody has yet watched and listened to the video for pacing or taste.
+
+## V1.1 — Goal-Directed Planning and Visual Planning
+
+Checks run on 2026-11-10, on the development machine (Windows 11, Docker Desktop), on branch `feat/butterfly-planning-experiments`. Baseline before any change: `python -m pytest` on `main` at 18ba504 gave 82 passed.
+
+| Check | Command | Result |
+|---|---|---|
+| Existing tests still pass | `python -m pytest` | 109 passed: the original 82 plus 27 new (gradient checks, planning, visual, API) |
+| Seeded repeatability | `tests/test_planning.py`, `tests/test_visual.py` | The same seed gives an identical episode (latency excluded) |
+| Unreachable target | `tests/test_planning.py`; `run_planning` enclosed layout | 0 of 50 landings for both exact planners, no collisions: they fail safely |
+| Matched rollout budgets | `tests/test_planning.py` | Every planner spends 960 evaluations per replan, waypoint or subgoal generation included; visual planners spend 768 |
+| Data split integrity | `tests/test_planning.py`, `tests/test_visual.py` | Seed ranges are disjoint within each experiment; splits are by whole trajectory; no example continues past a collision |
+| CPU smoke runs | the pytest suite trains tiny models; `docker compose --profile lab run --rm lab experiments.train_planning / run_planning / train_visual / run_visual` with small settings and a scratch output path | All four commands run in Docker |
+| Missing or incompatible model | `tests/test_labs.py` | Status 409, with the training command named |
+| Frontend | `npm run typecheck`; `npm test` | PASS; 8 passed |
+| All three modes, through the normal entry point | `npx playwright test` against `docker compose up --build` | 6 passed: the original 4 plus 2 new mode tests (Landing Prediction stays the default and pauses while another mode is shown) |
+| Original evidence intact | SHA-256 of `experiments/results/{metrics.json,results.svg,scenarios.csv}` before and after | Identical |
+| Full evaluations | `python -m experiments.run_planning` (155 s); `python -m experiments.run_visual` (56 s) | Results in `experiments/results/planning/` and `experiments/results/visual/`, reported in the two V1.1 docs |
+
+**Found and fixed during QA.** The new browser test caught a page error in the replay view. An animation-frame timestamp earlier than the episode's start time gave a replay index of −1. The fix clamps both the time step and the index.

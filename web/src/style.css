@@ -32,7 +32,7 @@ body {
   display: none !important;
 }
 
-#app {
+.app-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 348px;
   height: 100vh;
@@ -52,7 +52,8 @@ body {
   inset: 0;
 }
 
-#garden {
+#garden,
+#lab-canvas {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -75,7 +76,8 @@ body {
   max-width: calc(100% - 130px);
 }
 
-.brand h1 {
+.brand h1,
+.brand h2 {
   margin: 0;
   font-size: clamp(18px, 2.2vw, 26px);
   font-weight: 650;
@@ -604,7 +606,7 @@ button[aria-pressed="true"] {
     height: auto;
   }
 
-  #app {
+  .app-grid {
     display: block;
     height: auto;
   }
@@ -669,6 +671,187 @@ button[aria-pressed="true"] {
   .story {
     gap: 12px;
     transform: translateX(-50%) scale(0.8);
+  }
+}
+
+/* ---- V1.1: mode tabs and the planning lab ---- */
+
+.modes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  margin: 10px 0 2px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(120, 150, 255, 0.04);
+}
+
+.modes button {
+  min-height: 34px;
+  padding: 6px 4px;
+  font-size: 11.5px;
+  white-space: normal;
+  line-height: 1.2;
+  border-color: transparent;
+  background: transparent;
+  color: var(--muted);
+}
+
+.modes button[aria-selected="true"] {
+  background: rgba(94, 231, 255, 0.12);
+  border-color: rgba(94, 231, 255, 0.5);
+  color: var(--cyan);
+}
+
+.field {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.field select,
+.field input {
+  min-width: 0;
+  font: inherit;
+  color: var(--text);
+  background: rgba(120, 150, 255, 0.08);
+  border: 1px solid rgba(160, 180, 255, 0.28);
+  border-radius: 8px;
+  padding: 6px 8px;
+  min-height: 34px;
+}
+
+.field select option {
+  background: var(--panel);
+}
+
+.buttons.two {
+  grid-template-columns: 2fr 1fr;
+  margin-top: 10px;
+}
+
+#inp-scrub {
+  margin-bottom: 6px;
+}
+
+#res-outcome.good {
+  color: var(--gold);
+}
+
+#res-outcome.bad {
+  color: var(--bad);
+}
+
+#res-model {
+  font-size: 11.5px;
+  word-break: break-all;
+}
+
+#rec-body .compare {
+  margin-top: 6px;
+}
+
+.lab-views {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  z-index: 2;
+  display: flex;
+  gap: 10px;
+  margin: 0;
+}
+
+.lab-views figure {
+  margin: 0;
+  text-align: center;
+}
+
+.lab-views canvas {
+  width: 150px;
+  height: 90px;
+  image-rendering: pixelated;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #000;
+  display: block;
+}
+
+.lab-views figcaption {
+  margin-top: 3px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.lab-legend {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.lab-legend i {
+  display: inline-block;
+  width: 16px;
+  height: 3px;
+  margin-right: 6px;
+  vertical-align: middle;
+  border-radius: 2px;
+}
+
+.lab-legend .gold {
+  background: var(--gold);
+}
+
+.lab-legend .cyan {
+  background: var(--cyan);
+}
+
+.lab-legend .violet {
+  background: var(--violet);
+}
+
+.credit {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+@media (max-width: 900px) {
+  .lab-views {
+    top: auto;
+    bottom: 44px;
+    right: 10px;
+  }
+
+  .lab-views canvas {
+    width: 100px;
+    height: 60px;
+  }
+}
+
+@media (max-width: 560px) {
+  .lab-legend {
+    gap: 10px;
+    font-size: 11px;
+    bottom: 8px;
+  }
+
+  .field {
+    grid-template-columns: 96px minmax(0, 1fr);
   }
 }
 

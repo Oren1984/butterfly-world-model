@@ -6,4 +6,5 @@ web
 tests
 docs
 .pytest_cache
-experiments/results
+experiments/results/*.csv
+experiments/results/*/*.csv
