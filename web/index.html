@@ -50,11 +50,14 @@
       </main>
 
       <aside class="panel">
-        <nav id="modes" class="modes" role="tablist" aria-label="Experiment mode">
-          <button type="button" role="tab" data-mode="prediction" aria-selected="true">Landing Prediction</button>
-          <button type="button" role="tab" data-mode="planning" aria-selected="false">Goal-Directed Planning</button>
-          <button type="button" role="tab" data-mode="visual" aria-selected="false">Visual Planning</button>
-        </nav>
+        <div id="modebar" class="modebar">
+          <nav id="modes" class="modes" role="tablist" aria-label="Experiment mode">
+            <button type="button" role="tab" data-mode="prediction" aria-selected="true">Landing Prediction</button>
+            <button type="button" role="tab" data-mode="planning" aria-selected="false">Goal-Directed Planning</button>
+            <button type="button" role="tab" data-mode="visual" aria-selected="false">Visual Planning</button>
+          </nav>
+          <button id="btn-help" type="button" class="help-btn" aria-haspopup="dialog" aria-controls="help" title="Help Center">?<span class="sr">Help Center</span></button>
+        </div>
         <section aria-labelledby="h-research">
           <h2 id="h-research">World model <span id="model-status" class="pill">Connecting</span></h2>
           <dl class="facts">
@@ -179,7 +182,114 @@
         <p class="credit">Developed and built by Oren Salami · V1.1</p>
       </aside>
     </div>
+    <dialog id="help" class="help" aria-labelledby="help-title">
+      <header class="help-head">
+        <h2 id="help-title">Help Center</h2>
+        <button id="btn-help-close" type="button" class="help-close" aria-label="Close the Help Center">×</button>
+      </header>
+      <nav class="help-toc" aria-label="Help topics">
+        <a href="#help-about">About</a>
+        <a href="#help-prediction">Landing Prediction</a>
+        <a href="#help-planning">Goal-Directed Planning</a>
+        <a href="#help-visual">Visual Planning</a>
+        <a href="#help-read">Reading the screen</a>
+        <a href="#help-faq">FAQ</a>
+        <a href="#help-more">Learn more</a>
+      </nav>
+      <div class="help-body">
+        <section id="help-about">
+          <h3>About this project</h3>
+          <p>A butterfly flies through a small simulated garden, pushed by wind and by its own changes of mind. The project asks a world-model question you can watch and measure: <b>can a model imagine what happens next, and how often is it right?</b></p>
+          <p>It has three modes, switched with the tabs at the top of the side panel. <b>Landing Prediction</b>, the original experiment, is the default. Version 1.1 adds two opt-in planning experiments.</p>
+          <p class="help-note">A compact, simulation-based proof of concept. The prediction mode uses hand-written rules and learns nothing. The two planning modes train small models on the CPU. They are inspired by, not reproductions of, the cited research.</p>
+        </section>
+
+        <section id="help-prediction">
+          <h3>Landing Prediction</h3>
+          <p>One second into every flight, time pauses and the model imagines <b>20 possible futures</b> from what a camera could see. It then names the flower it expects the butterfly to land on, with a probability for every flower and for “no landing within six seconds”. The prediction is frozen, the real flight continues, and the result card scores it.</p>
+          <ul>
+            <li><b>Drag a flower</b> or change the wind and randomness sliders: the old prediction is discarded and imagined again.</li>
+            <li><b>Keyboard:</b> focus the garden, press <kbd>N</kbd> to select a flower and use the arrow keys to move it.</li>
+            <li><b>Run 500-scenario evaluation</b> scores the model against two simple baselines on fixed seeds.</li>
+          </ul>
+          <p>Recorded result on 500 held-out scenarios: <b>72.0%</b> top-1 accuracy, against 57.6% for the nearest-flower baseline.</p>
+        </section>
+
+        <section id="help-planning">
+          <h3>Goal-Directed Planning <span class="help-tag">V1.1 · HWM-inspired</span></h3>
+          <p>Instead of predicting, an agent <b>steers</b> the butterfly to a target flower against a seeded wind. A <b>flat</b> planner scores steering sequences toward the flower directly. <b>Hierarchical</b> planners first choose an intermediate waypoint, then refine it into steering actions. Every planner gets the same budget per replan.</p>
+          <ul>
+            <li><b>Garden:</b> a direct route, a detour behind a hedge, or a walled-in target that cannot be reached.</li>
+            <li><b>Planner:</b> uses either the simulator's exact dynamics or a small model learned from simulated flights.</li>
+            <li><b>Episode seed</b> fixes the start and the wind. The same seed always gives the same episode.</li>
+          </ul>
+          <p>On the detour, explicit waypoints land 80% of the time against 26% for flat planning, both using exact dynamics. With the learned model, long-horizon subgoals land 60% of the time against 6% for flat planning.</p>
+        </section>
+
+        <section id="help-visual">
+          <h3>Visual Planning <span class="help-tag">V1.1 · H-JEPA-inspired</span></h3>
+          <p>The planner sees <b>only 50 × 30 pixel frames and a goal image</b>, never coordinates. It plans in a representation learned from pixels. A one-level model is compared with a jointly trained two-level model whose higher level supplies subgoals.</p>
+          <ul>
+            <li><b>Trained model</b> picks one of three training seeds. Results differ a lot between them.</li>
+            <li><b>Add a moving visual distractor</b> puts an independent moving object in the scene.</li>
+            <li>The small images show what the planner sees and the goal image it must reach.</li>
+          </ul>
+          <p>This is the hardest experiment, and its results are weak. The two-level model lands 33% of the time on the clean direct route on average (90%, 10% and 0% by training seed). The one-level model never lands, and neither variant solves the detour.</p>
+        </section>
+
+        <section id="help-read">
+          <h3>Reading the screen</h3>
+          <dl class="help-legend">
+            <div><dt><i class="cyan"></i>Cyan</dt><dd>In prediction: futures ending on the most likely flower. In planning: the imagined route.</dd></div>
+            <div><dt><i class="violet"></i>Violet</dt><dd>In prediction: futures ending on other flowers. In planning: waypoints and subgoals.</dd></div>
+            <div><dt><i class="gold"></i>Gold</dt><dd>What actually happened: the real flight.</dd></div>
+            <div><dt><i class="grey"></i>Dashed grey</dt><dd>Imagined futures that never land in time.</dd></div>
+          </dl>
+          <ul>
+            <li><b>Generated live</b>: the episode was just computed by the API on this machine.</li>
+            <li><b>Recorded</b>: the comparison table comes from the saved evaluation run in the repository.</li>
+            <li><b>Model evaluations</b>: how many times the planner queried its model, the measure the budgets are matched on.</li>
+            <li>In Visual Planning, the cyan route is decoded from the planner's latents by a frozen probe. It is for display only.</li>
+          </ul>
+        </section>
+
+        <section id="help-faq">
+          <h3>Frequently asked questions</h3>
+          <details>
+            <summary>Is this a trained neural world model?</summary>
+            <p>Not in Landing Prediction: it rolls hand-written rules forward with random sampling. The two planning modes do use small trained models, trained by an explicit command and loaded from saved files.</p>
+          </details>
+          <details>
+            <summary>Why is the prediction sometimes wrong?</summary>
+            <p>The butterfly's intent, the gusts and the random draws are hidden from the model, so its futures disagree. It is wrong in about 28% of scenarios. That is reported, not hidden.</p>
+          </details>
+          <details>
+            <summary>A planning mode says a model is missing.</summary>
+            <p>The trained models live in <code>artifacts/</code>. If they are absent, the mode reports it instead of guessing. Retrain them with the commands in the README.</p>
+          </details>
+          <details>
+            <summary>Does anything leave my machine?</summary>
+            <p>No. Everything runs locally in Docker, with no accounts, keys, paid APIs or cloud services.</p>
+          </details>
+          <details>
+            <summary>Why do several browser tabs show the same garden?</summary>
+            <p>The live garden is a single in-memory world shared by every connected tab. It is a demo, not a multi-user service.</p>
+          </details>
+        </section>
+
+        <section id="help-more">
+          <h3>Learn more</h3>
+          <p>The full documentation is in the repository's <code>docs/</code> folder, starting with <code>docs/README.md</code>:</p>
+          <ul>
+            <li><a href="https://github.com/Oren1984/butterfly-world-model#readme" target="_blank" rel="noopener">Project README</a></li>
+            <li><a href="https://github.com/Oren1984/butterfly-world-model/tree/main/docs" target="_blank" rel="noopener">Documentation folder</a></li>
+          </ul>
+          <p class="credit">Developed and built by Oren Salami · V1.1</p>
+        </section>
+      </div>
+    </dialog>
     <script type="module" src="/src/main.ts"></script>
+    <script type="module" src="/src/help.ts"></script>
     <script type="module" src="/src/lab.ts"></script>
   </body>
 </html>

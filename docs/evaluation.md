@@ -54,6 +54,10 @@ The world model's accuracy interval does not overlap either baseline's. Comparin
 
 ![Evaluation chart](../experiments/results/results.svg)
 
+The same 500-scenario benchmark runs from the application's **Evaluation** panel (*Run 500-scenario evaluation*), which shows the three predictors side by side:
+
+![The Evaluation panel in the application, after a run](images/evaluation-panel.png)
+
 ### Calibration of the world model
 
 | Stated confidence | Scenarios | Average confidence | Actually correct |

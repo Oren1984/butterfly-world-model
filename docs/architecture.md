@@ -46,6 +46,7 @@ The frontend only ever requests relative URLs such as `/api/world/step`. In Dock
 | `api/learning/nn.py` | A tiny numpy MLP with manual backpropagation and Adam (no deep-learning dependency). |
 | `artifacts/` | Trained models with their metadata (model version, seed, config, validation metrics). |
 | `web/src/lab.ts` | The mode switch and the replay view for the two planning modes. |
+| `web/src/help.ts` | The Help Center dialog (content is static HTML in `web/index.html`). |
 
 ## The flight cycle
 

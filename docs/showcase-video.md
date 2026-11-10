@@ -9,6 +9,24 @@
 | **Subtitles** | Hebrew, WebVTT: [`butterfly-world-model-showcase.he.vtt`](video/butterfly-world-model-showcase.he.vtt) |
 | **On-screen language** | English |
 
+**Scope.** The video covers V1, the **Landing Prediction** mode. The V1.1 modes (Goal-Directed Planning and Visual Planning) came later and are not in it; their screenshots are in [goal-directed-planning.md](goal-directed-planning.md) and [visual-planning.md](visual-planning.md).
+
+## Watching it
+
+From a clone of the repository, run one of these from the project folder:
+
+```bash
+start docs\video\butterfly-world-model-showcase.mp4      # Windows (cmd or PowerShell)
+open docs/video/butterfly-world-model-showcase.mp4       # macOS
+xdg-open docs/video/butterfly-world-model-showcase.mp4   # Linux
+```
+
+With the Hebrew subtitles, using [VLC](https://www.videolan.org/vlc/):
+
+```bash
+vlc docs/video/butterfly-world-model-showcase.mp4 --sub-file docs/video/butterfly-world-model-showcase.he.vtt
+```
+
 To watch with subtitles, keep the two files side by side and open the MP4 in a player that picks up sidecar subtitles (VLC does this automatically; in other players, load the `.vtt` as a subtitle file). In a web page, use a `<track kind="subtitles" srclang="he">` element. The subtitles are placed at the top of the picture so they never cover the English captions at the bottom.
 
 ## Storyboard

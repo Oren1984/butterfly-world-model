@@ -19,7 +19,7 @@ test("capture documentation screenshots", async ({ page }) => {
   await expect(page.locator("#story-predicted")).toHaveClass(/on/);
   await page.waitForTimeout(450);
   await page.screenshot({ path: `${out}/garden-twenty-futures.jpg`, type: "jpeg", quality: 88 });
-  const stage = (await page.locator(".stage").boundingBox())!;
+  const stage = (await page.locator("#app .stage").boundingBox())!;
   await page.screenshot({
     path: `${out}/imagined-futures-closeup.png`,
     clip: { x: stage.x + 40, y: stage.y + 300, width: 560, height: 400 },

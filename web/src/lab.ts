@@ -92,7 +92,7 @@ function setMode(next: Mode, push = true): void {
   }
   // The tab bar lives at the top of whichever side panel is visible.
   const host = next === "prediction" ? document.querySelector("#app .panel") : document.querySelector("#lab .panel");
-  host?.prepend($("modes"));
+  host?.prepend($("modebar"));
   if (push) history.replaceState(null, "", next === "prediction" ? location.pathname : `#${next}`);
   if (next === "prediction") return;
   episode = null;

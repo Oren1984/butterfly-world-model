@@ -10,21 +10,7 @@
 
 ### ▶ [Watch the showcase video (77 seconds)](docs/video/butterfly-world-model-showcase.mp4)
 
-Recorded from the running application, 1080p, with ambient music by Yoiyami (CC0). Hebrew subtitles are provided as [WebVTT](docs/video/butterfly-world-model-showcase.he.vtt). On GitHub, open the link and choose *View raw* to download and play it.
-
-To play it from a clone of the repository, run one of these from the project folder:
-
-```bash
-start docs\video\butterfly-world-model-showcase.mp4      # Windows (cmd or PowerShell)
-open docs/video/butterfly-world-model-showcase.mp4       # macOS
-xdg-open docs/video/butterfly-world-model-showcase.mp4   # Linux
-```
-
-With the Hebrew subtitles, using [VLC](https://www.videolan.org/vlc/):
-
-```bash
-vlc docs/video/butterfly-world-model-showcase.mp4 --sub-file docs/video/butterfly-world-model-showcase.he.vtt
-```
+The video shows the original **Landing Prediction** mode, recorded from the running application, with Hebrew subtitles ([WebVTT](docs/video/butterfly-world-model-showcase.he.vtt)). It predates the V1.1 planning modes, which are shown in the screenshots below. On GitHub, open the link and choose *View raw* to play it; playback and subtitle instructions are in [docs/showcase-video.md](docs/showcase-video.md#watching-it).
 
 > **What this is, and is not.** A compact, simulation-based proof of concept. In the original landing-prediction mode the "world model" is a small set of hand-written rules rolled forward with random sampling — it is **not** a trained neural world model, and nothing in it learns. The V1.1 planning modes add small models that *are* trained (on the CPU, from seeded simulated flights); they are inspired by, not reproductions of, the cited research.
 
@@ -189,7 +175,9 @@ You need Docker. Nothing else — no accounts, keys or cloud services.
 docker compose up --build
 ```
 
-Then open **http://localhost:8080**. The tabs at the top of the side panel switch between Landing Prediction, Goal-Directed Planning and Visual Planning. (The API is also reachable directly at http://localhost:8000, with interactive docs at `/docs`.) Stop with `Ctrl+C` or `docker compose down`. If a port is taken: `WEB_PORT=9090 API_PORT=9000 docker compose up --build`.
+Then open **http://localhost:8080**. The tabs at the top of the side panel switch between Landing Prediction, Goal-Directed Planning and Visual Planning, and the **?** button next to them opens the in-app **Help Center**, which explains each mode and how to read the screen. (The API is also reachable directly at http://localhost:8000, with interactive docs at `/docs`.) Stop with `Ctrl+C` or `docker compose down`. If a port is taken: `WEB_PORT=9090 API_PORT=9000 docker compose up --build`.
+
+![The Help Center, opened from the ? button over the Landing Prediction mode](docs/images/help-center.jpg)
 
 Reproduce the benchmark:
 
@@ -221,7 +209,7 @@ This project **does not reproduce any of these papers**. The landing-prediction 
 
 ## Known limitations
 
-- **Nothing is learned.** The prediction engine is given the rules of the garden; only the hidden intent, gusts and random draws are unknown to it. A learned model would also have to discover the rules.
+- **Landing Prediction learns nothing.** Its prediction engine is given the rules of the garden; only the hidden intent, gusts and random draws are unknown to it. A learned model would also have to discover the rules.
 - **The model is "well specified".** Predictor and world share the same documented equations, which is the easiest possible setting. Real environments never match the model this well.
 - **Twenty samples are coarse.** Probabilities move in steps of 5%, and rare outcomes such as "no landing" are often missed.
 - **A toy world.** Two dimensions, one butterfly, a few flowers, and no real butterfly aerodynamics or behaviour.
@@ -230,6 +218,8 @@ This project **does not reproduce any of these papers**. The landing-prediction 
 - **The V1.1 learned models never leave their two gardens.** They are trained and evaluated on the same two layouts (with different seeds, starts and winds) and are not tested on unseen gardens.
 
 ## More documentation
+
+Start with the [documentation index](docs/README.md). In the application, the **?** button opens the Help Center.
 
 - [Architecture](docs/architecture.md) — the two services and what each part is responsible for.
 - [Simulation and prediction](docs/simulation-and-prediction.md) — the world's rules, how futures are imagined, and how information leaks are prevented.

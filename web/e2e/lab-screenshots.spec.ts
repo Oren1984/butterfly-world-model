@@ -39,4 +39,12 @@ test("capture V1.1 screenshots", async ({ page }) => {
   await page.locator("#inp-seed").fill("4");
   await runAndPause(page, 0.4);
   await page.screenshot({ path: `${out}/visual-mode.jpg`, type: "jpeg", quality: 88 });
+
+  // The Help Center, opened over the Landing Prediction mode.
+  await page.locator('#modes button[data-mode="prediction"]').click();
+  await page.locator("#btn-help").click();
+  await expect(page.locator("#help")).toBeVisible();
+  await page.waitForTimeout(300);
+  await page.screenshot({ path: `${out}/help-center.jpg`, type: "jpeg", quality: 88 });
+  await page.keyboard.press("Escape");
 });

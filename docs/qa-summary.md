@@ -68,3 +68,18 @@ Checks run on 2026-11-10, on the development machine (Windows 11, Docker Desktop
 | Full evaluations | `python -m experiments.run_planning` (155 s); `python -m experiments.run_visual` (56 s) | Results in `experiments/results/planning/` and `experiments/results/visual/`, reported in the two V1.1 docs |
 
 **Found and fixed during QA.** The new browser test caught a page error in the replay view. An animation-frame timestamp earlier than the episode's start time gave a replay index of −1. The fix clamps both the time step and the index.
+
+## V1.1 — Help Center and documentation cleanup
+
+Checks run on 2026-11-10, on the same machine, against `docker compose up -d --build` with the Help Center included.
+
+| Check | Command | Result |
+|---|---|---|
+| Backend tests | `python -m pytest` | 109 passed |
+| Frontend | `npm run typecheck`; `npm test` | PASS; 8 passed |
+| Browser end-to-end | `npx playwright test` | 7 passed (the previous 6 plus the new Help Center test: opens from every mode, topic links scroll without switching mode, closes with the button and with Esc, focus returns to the **?** button, no page errors); 2 capture specs skipped |
+| Documentation screenshots | `CAPTURE=1 npx playwright test screenshots lab-screenshots` | All 8 images regenerated from the running application, including the new `help-center.jpg` |
+| Documentation links | A script resolving every relative link and image in `README.md` and `docs/*.md` | No broken links; every file in `docs/images/` and `docs/video/` is referenced |
+
+**Found and fixed.** The V1 capture spec (`screenshots.spec.ts`, skipped unless `CAPTURE=1`) had broken when V1.1 added a second `.stage` element. Its locator is now scoped to `#app .stage`.
+
